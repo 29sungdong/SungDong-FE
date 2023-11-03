@@ -1,3 +1,6 @@
 <resources>
-    <string name="app_name">sungdong-fe</string>
+    <string name="app_name">성동산책</string>
+    <string name="title_home">홈</string>
+    <string name="title_walk">산책</string>
+    <string name="title_event">행사</string>
 </resources>
