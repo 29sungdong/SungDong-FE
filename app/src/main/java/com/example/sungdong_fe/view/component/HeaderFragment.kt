@@ -1,6 +1,5 @@
 package com.example.sungdong_fe.view.component
 
-import android.content.ClipData.Item
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -8,14 +7,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
-import com.example.sungdong_fe.R
 import com.example.sungdong_fe.databinding.TopBarFragmentBinding
 import com.example.sungdong_fe.viewmodel.TopBarViewModel
 
-class TopBarFragment : Fragment() {
+class HeaderFragment : Fragment() {
 
     companion object {
-        fun newInstance() = TopBarFragment()
+        fun newInstance() = HeaderFragment()
     }
 
     private lateinit var viewModel: TopBarViewModel

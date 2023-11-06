@@ -5,7 +5,6 @@ import android.os.Bundle
 import androidx.fragment.app.Fragment
 import com.example.sungdong_fe.R
 import com.example.sungdong_fe.databinding.ActivityBottomNavigationBinding
-import com.example.sungdong_fe.view.component.TopBarFragment
 
 class BottomNavigationActivity : AppCompatActivity() {
     private lateinit var binding : ActivityBottomNavigationBinding

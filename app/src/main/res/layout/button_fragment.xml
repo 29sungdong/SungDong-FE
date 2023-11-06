@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.AppCompatButton
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    tools:context=".view.component.ButtonFragment"
+    android:background="@drawable/bg_button"
+    android:text="산책 시작하기"
+    android:fontFamily="@font/suit_regular"
+    android:textColor="@color/white"
+    android:textSize="18sp"
+    android:padding="10dp"/>
