@@ -5,10 +5,13 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_gravity="center"
-    tools:context=".view.component.ButtonFragment"
-    android:background="@drawable/bg_button"
+    tools:context=".view.component.BottomFloatingFragment"
+    android:background="@drawable/bg_bottom_floating"
     android:text="@string/start_walk"
-    android:fontFamily="@font/suit_regular"
+    android:fontFamily="@font/suit_bold"
     android:textColor="@color/white"
     android:textSize="18sp"
-    android:padding="10dp"/>
+    android:paddingHorizontal="25dp"
+    android:paddingVertical="15dp"
+    android:drawableEnd="@drawable/ic_right"
+    android:drawablePadding="15dp"/>

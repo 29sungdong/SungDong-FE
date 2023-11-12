@@ -6,6 +6,11 @@
         android:layout_height="wrap_content"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         tools:context=".view.component.HeaderFragment">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent">
     <ImageView
             android:id="@+id/search"
             android:layout_width="wrap_content"
@@ -41,5 +46,5 @@
             android:src="@drawable/ic_person"
             android:tint="@color/gray_dark"
     />
-
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

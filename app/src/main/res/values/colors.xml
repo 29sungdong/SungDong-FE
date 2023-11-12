@@ -18,4 +18,8 @@
     <color name="gray_regular">#7F859B</color>
     <color name="gray_light">#A1A6BB</color>
     <color name="gray_extralight">#E4E7EF</color>
+    <color name="light_blue_400">#FF29B6F6</color>
+    <color name="light_blue_600">#FF039BE5</color>
+    <color name="gray_400">#FFBDBDBD</color>
+    <color name="gray_600">#FF757575</color>
 </resources>
