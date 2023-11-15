@@ -30,11 +30,11 @@ class BottomNavigationActivity : AppCompatActivity() {
         getPermission()
 
         // component 연결
+        HeaderFragment.viewModel = ViewModelProvider(this).get(HeaderViewModel::class.java)
+        SearchFragment.viewModel = ViewModelProvider(this).get(SearchViewModel::class.java)
         transactionFragment(binding.menuFragment.id, HomeFragment())
         transactionFragment(binding.header.id, HeaderFragment())
         transactionFragment(binding.sheet.id, SearchFragment())
-        HeaderFragment.viewModel = ViewModelProvider(this).get(HeaderViewModel::class.java)
-        SearchFragment.viewModel = ViewModelProvider(this).get(SearchViewModel::class.java)
 
         binding.nav.setOnItemSelectedListener {
             when(it.itemId){

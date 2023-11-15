@@ -29,7 +29,7 @@ class HeaderFragment : Fragment() {
             binding.search.visibility = it
         }
         binding.search.setOnClickListener {
-            SearchFragment.viewModel.updateEnabled()
+            SearchFragment.viewModel.updateSheetEnabled()
         }
     }
 

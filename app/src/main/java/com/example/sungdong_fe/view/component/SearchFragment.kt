@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
+import androidx.core.widget.doOnTextChanged
 import androidx.lifecycle.Observer
 import com.example.sungdong_fe.databinding.SearchFragmentBinding
 import com.example.sungdong_fe.model.adapter.SearchResultAdapter
@@ -33,16 +34,17 @@ class SearchFragment : Fragment(){
         super.onViewCreated(view, savedInstanceState)
         val resultAdapter = SearchResultAdapter()
         binding.searchResult.adapter = resultAdapter
-        binding.searchBtn.setOnClickListener{
-            // search
-            viewModel.updateSearchResult(binding.searchInput.text.toString())
+        binding.searchInput.doOnTextChanged { text, start, before, count ->
+            viewModel.updateSearchResult(text.toString())
         }
+
         viewModel.searchResult.observe(this, Observer {
             // adapter 리스트 바꾸기
             resultAdapter.updateList(viewModel.searchResult.value?:emptyList())
             binding.searchResult.adapter = resultAdapter
         })
         viewModel.sheetEnabled.observe(this){
+            // search fragment visibility 조정
             binding.root.visibility = it
             if(viewModel.sheetEnabled.value == View.GONE){
                 binding.searchInput.setText("")
@@ -51,7 +53,7 @@ class SearchFragment : Fragment(){
         }
         HeaderFragment.viewModel.searchBtnEnabled.observe(this){
             if(it == View.GONE && viewModel.sheetEnabled.value == View.VISIBLE)
-                viewModel.updateEnabled()
+                viewModel.updateSheetEnabled()
         }
 
     }

@@ -1,9 +1,6 @@
 package com.example.sungdong_fe.viewmodel.component
 
-import android.app.Activity
-import android.content.Context
 import android.view.View
-import android.view.inputmethod.InputMethodManager
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -27,7 +24,7 @@ class SearchViewModel : ViewModel() {
         get() = _searchResult
 
     // setter
-    fun updateEnabled(){
+    fun updateSheetEnabled(){
         _sheetEnabled.value = when(_sheetEnabled.value){
             View.VISIBLE -> {
                 _searchResult.value = emptyList()
@@ -37,15 +34,20 @@ class SearchViewModel : ViewModel() {
         }
     }
     fun updateSearchResult(searchWord: String)= CoroutineScope(Default).launch {
-        try{
-            val request = CoroutineScope(IO).async { Api.retrofitClient.getPlacesSearch(searchWord) }
-            val response = request.await()
-            when(response.code()){
-                200 -> _searchResult.postValue(response.body()?.get("markers"))
-                else -> {}
-            }
-        }catch(e: Exception){
+        if(searchWord == ""){
+            _searchResult.postValue(emptyList())
+        }else {
+            try {
+                val request =
+                    CoroutineScope(IO).async { Api.retrofitClient.getPlacesSearch(searchWord) }
+                val response = request.await()
+                when (response.code()) {
+                    200 -> _searchResult.postValue(response.body()?.get("markers"))
+                    else -> {}
+                }
+            } catch (e: Exception) {
 
+            }
         }
     }
 
