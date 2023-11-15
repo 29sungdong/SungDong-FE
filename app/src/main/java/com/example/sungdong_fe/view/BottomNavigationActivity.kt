@@ -9,15 +9,19 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import androidx.core.app.ActivityCompat
+import androidx.core.location.component1
+import androidx.core.location.component2
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.sungdong_fe.R
 import com.example.sungdong_fe.databinding.ActivityBottomNavigationBinding
 import com.example.sungdong_fe.model.db.Glob.APP_KEY
+import com.example.sungdong_fe.model.db.Glob.userLocation
 import com.example.sungdong_fe.view.component.HeaderFragment
 import com.example.sungdong_fe.view.component.SearchFragment
 import com.example.sungdong_fe.viewmodel.component.HeaderViewModel
 import com.example.sungdong_fe.viewmodel.component.SearchViewModel
+import com.skt.tmap.engine.navigation.SDKManager
 import com.tmapmobility.tmap.tmapsdk.ui.util.TmapUISDK
 
 class BottomNavigationActivity : AppCompatActivity() {
@@ -57,8 +61,8 @@ class BottomNavigationActivity : AppCompatActivity() {
             true
         }
         binding.gps.setOnClickListener {
-            val (longi, lati) = getCurrentLocation()
-            setMapCenterPoint(longi, lati)
+            TmapUISDK.getFragment().getMapView()
+                ?.setMapCenter(userLocation().longitude, userLocation().latitude, true)
         }
         TmapUISDK.initialize(this, "", APP_KEY, "", "", object : TmapUISDK.InitializeListener{
             override fun onFail(errorCode: Int, errorMsg: String?) {
@@ -66,7 +70,6 @@ class BottomNavigationActivity : AppCompatActivity() {
             }
 
             override fun onSuccess() {
-                SearchFragment.viewModel = ViewModelProvider(this@BottomNavigationActivity).get(SearchViewModel::class.java)
             }
         })
     }
@@ -76,20 +79,6 @@ class BottomNavigationActivity : AppCompatActivity() {
         .commitAllowingStateLoss()
 
 
-    private fun setMapCenterPoint(longi: Double?, lati: Double?){
-        if(longi != null && lati != null) {
-            TmapUISDK.getFragment().getMapView()
-                ?.setMapCenter(longi, lati, true)
-        }
-    }
-    @SuppressLint("MissingPermission")
-    private fun getCurrentLocation() : Pair<Double?, Double?>{
-        val locationManager = ((this as Context).getSystemService(Context.LOCATION_SERVICE) as LocationManager?)!!
-        val locationProvider = LocationManager.GPS_PROVIDER
-        val userLocation: Location? = locationManager.getLastKnownLocation(locationProvider)
-
-        return Pair(userLocation?.longitude, userLocation?.latitude)
-    }
     private fun getPermission(){
         if(ActivityCompat.checkSelfPermission(this, android.Manifest.permission.INTERNET) != PackageManager.PERMISSION_GRANTED
             || ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED

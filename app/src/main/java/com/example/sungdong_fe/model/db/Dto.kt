@@ -14,6 +14,9 @@ class Dto {
         val id: Int,
         val name: String,
         val xcoordinate: String,
-        val ycoordinate: String
+        val ycoordinate: String,
+        val openingTime: String,
+        val closingTime: String,
+        val hasEvent : Boolean
     )
 }
