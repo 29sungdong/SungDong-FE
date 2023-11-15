@@ -7,7 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.sungdong_fe.R
-import com.example.sungdong_fe.viewmodel.ButtonViewModel
+import com.example.sungdong_fe.viewmodel.component.ButtonViewModel
 
 class ButtonFragment : Fragment() {
 

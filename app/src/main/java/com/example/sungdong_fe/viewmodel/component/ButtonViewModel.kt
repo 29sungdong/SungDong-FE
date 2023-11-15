@@ -1,4 +1,4 @@
-package com.example.sungdong_fe.viewmodel
+package com.example.sungdong_fe.viewmodel.component
 
 import androidx.lifecycle.ViewModel
 

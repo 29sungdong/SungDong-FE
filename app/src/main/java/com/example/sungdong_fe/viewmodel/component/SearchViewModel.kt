@@ -1,36 +1,29 @@
-package com.example.sungdong_fe.viewmodel
+package com.example.sungdong_fe.viewmodel.component
 
-import android.support.v4.os.IResultReceiver.Default
+import android.view.View
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.sungdong_fe.api.Api
-import kotlinx.coroutines.Dispatchers.Default
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers.IO
-import kotlinx.coroutines.async
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 class SearchViewModel : ViewModel() {
 
-    private val _enabled = MutableLiveData<Boolean>()
+    private val _sheetEnabled = MutableLiveData<Int>()
     private val _searchResult = MutableLiveData<Array<String>>()
 
     // getter
-    val enabled : LiveData<Boolean>
-        get() =  _enabled
+    val sheetEnabled : LiveData<Int>
+        get() =  _sheetEnabled
     val searchResult : LiveData<Array<String>>
         get() = _searchResult
 
     // setter
     fun updateEnabled(){
-        _enabled.value = when(_enabled.value){
-            true -> {
+        _sheetEnabled.value = when(_sheetEnabled.value){
+            View.VISIBLE -> {
                 _searchResult.value = emptyArray()
-                false
+                View.GONE
             }
-            else -> true
+            else -> View.VISIBLE
         }
     }
     fun updateSearchResult(searchWord: String){
@@ -40,7 +33,7 @@ class SearchViewModel : ViewModel() {
     }
 
     init{
-        _enabled.value = false
+        _sheetEnabled.value = View.GONE
         _searchResult.value = emptyArray()
     }
 }

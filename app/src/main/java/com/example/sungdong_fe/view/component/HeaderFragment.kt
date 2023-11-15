@@ -6,13 +6,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.sungdong_fe.databinding.HeaderFragmentBinding
+import com.example.sungdong_fe.viewmodel.component.HeaderViewModel
 
 class HeaderFragment : Fragment() {
 
     companion object {
-        fun newInstance() = HeaderFragment()
+        lateinit var viewModel: HeaderViewModel
     }
-
     private lateinit var binding: HeaderFragmentBinding
 
     override fun onCreateView(
@@ -25,11 +25,11 @@ class HeaderFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.search.setOnClickListener{
-            //viewmodel-update searchText
+        viewModel.searchBtnEnabled.observe(this){
+            binding.search.visibility = it
         }
         binding.search.setOnClickListener {
-            SearchFragment.vm.updateEnabled()
+            SearchFragment.viewModel.updateEnabled()
         }
     }
 

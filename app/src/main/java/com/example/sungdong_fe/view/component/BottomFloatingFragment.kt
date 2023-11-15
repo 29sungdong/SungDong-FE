@@ -7,7 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.sungdong_fe.R
-import com.example.sungdong_fe.viewmodel.BottomFloatingViewModel
+import com.example.sungdong_fe.viewmodel.component.BottomFloatingViewModel
 
 class BottomFloatingFragment : Fragment() {
 

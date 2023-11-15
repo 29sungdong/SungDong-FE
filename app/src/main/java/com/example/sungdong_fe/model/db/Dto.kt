@@ -1,7 +1,7 @@
 package com.example.sungdong_fe.model.db
 
 class Dto {
-    data class Place(
+    data class PlaceInfo(
         val id: Int,
         val name: String,
         val image: String,
@@ -10,10 +10,10 @@ class Dto {
         val openingTime: String,
         val closingTime: String
     )
-    data class TmapErrorCode(
+    data class PlaceLocation(
         val id: Int,
-        val category: String,
-        val code: Int,
-        val message: String
+        val name: String,
+        val xcoordinate: String,
+        val ycoordinate: String
     )
 }
