@@ -1,21 +1,26 @@
 package com.example.sungdong_fe.api
 
-import android.media.Image
 import com.example.sungdong_fe.model.db.Dto
-import okhttp3.MultipartBody
+import com.example.sungdong_fe.model.db.Dto.*
 import retrofit2.Response
 import retrofit2.http.GET
-import retrofit2.http.Path
+import retrofit2.http.Query
 
 interface Api {
     companion object{
         val retrofitClient = RetrofitClient.getDefaultClient().create(Api::class.java)
-        val TmapOpenApi = RetrofitClient.getTmapClient().create(Api::class.java)
     }
     // 근처 장소 리스트 조회
-    @GET("/places/{xCoordinate}/{yCoordinate}")
+    @GET("/places")
     suspend fun getPlaces(
-        @Path("xCoordinate") xCoordinate : String,
-        @Path("yCoordinate") yCoordinate : String,
-    ): Response<List<Dto.Place>>
+        @Query("xCoordinate") xCoordinate : String,
+        @Query("yCoordinate") yCoordinate : String,
+    ): Response<List<PlaceInfo>>
+
+    @GET("/places/search")
+    suspend fun getPlacesSearch(
+        @Query("keyword") keyword : String,
+    ): Response<List<PlaceLocation>>
+
+
 }

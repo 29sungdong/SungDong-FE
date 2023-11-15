@@ -1,8 +1,5 @@
 package com.example.sungdong_fe.view
 
-import android.Manifest
-import android.annotation.SuppressLint
-import android.content.Context
 import android.content.Context.LOCATION_SERVICE
 import android.content.pm.PackageManager
 import android.location.Location
@@ -18,8 +15,9 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.ContextCompat.getSystemService
 import com.example.sungdong_fe.databinding.WalkFragmentBinding
+import com.example.sungdong_fe.view.component.HeaderFragment
 import com.example.sungdong_fe.view.component.SearchFragment
-import com.example.sungdong_fe.viewmodel.SearchViewModel
+import com.example.sungdong_fe.viewmodel.component.SearchViewModel
 import com.example.sungdong_fe.viewmodel.WalkViewModel
 import com.skt.Tmap.TMapView
 
@@ -35,7 +33,7 @@ class WalkFragment : Fragment() {
         binding = WalkFragmentBinding.inflate(layoutInflater)
         transactionFragment(binding.sheet.id, SearchFragment())
         // viewModel
-        SearchFragment.vm = ViewModelProvider(this).get(SearchViewModel::class.java)
+        SearchFragment.viewModel = ViewModelProvider(this).get(SearchViewModel::class.java)
         viewModel = ViewModelProvider(this).get(WalkViewModel::class.java)
         viewModel.updateLocation(context)
         return binding.root
@@ -54,13 +52,19 @@ class WalkFragment : Fragment() {
         viewModel.longitude.observe(this){
             tMapView.setCenterPoint(viewModel.longitude.value!!, viewModel.latitude.value!!, false)
         }
-        SearchFragment.vm.enabled.observe(this) {
-            binding.sheet.visibility = when (SearchFragment.vm.enabled.value) {
-                true -> View.VISIBLE
-                else -> View.GONE
-            }
+        SearchFragment.viewModel.sheetEnabled.observe(this) {
+            binding.sheet.visibility = it
         }
 
+    }
+
+    override fun onStart() {
+        super.onStart()
+        HeaderFragment.viewModel.updateSearchBtnEnabled(View.VISIBLE)
+    }
+    override fun onStop() {
+        super.onStop()
+        HeaderFragment.viewModel.updateSearchBtnEnabled(View.GONE)
     }
     private fun transactionFragment(container_id: Int, fragment: Fragment) = parentFragmentManager
         .beginTransaction()

@@ -8,14 +8,13 @@ import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import com.example.sungdong_fe.databinding.SearchFragmentBinding
 import com.example.sungdong_fe.model.adapter.SearchResultAdapter
-import com.example.sungdong_fe.viewmodel.SearchViewModel
+import com.example.sungdong_fe.viewmodel.component.SearchViewModel
 
 class SearchFragment : Fragment(){
 
     companion object {
-        lateinit var vm : SearchViewModel
+        lateinit var viewModel: SearchViewModel
     }
-
     private lateinit var binding: SearchFragmentBinding
 
     override fun onCreateView(
@@ -33,16 +32,16 @@ class SearchFragment : Fragment(){
         binding.searchResult.adapter = resultAdapter
         binding.searchBtn.setOnClickListener{
             // search
-            vm.updateSearchResult(binding.searchInput.text.toString())
+            viewModel.updateSearchResult(binding.searchInput.text.toString())
         }
-        vm.searchResult.observe(this, Observer {
+        viewModel.searchResult.observe(this, Observer {
             // adapter 리스트 바꾸기
-            resultAdapter.updateArray(vm.searchResult.value!!)
+            resultAdapter.updateArray(viewModel.searchResult.value!!)
             binding.searchResult.adapter = resultAdapter
         })
-        vm.enabled.observe(this){
-            if(vm.enabled.value == false){
-                binding.searchInput.text = null
+        viewModel.sheetEnabled.observe(this){
+            if(viewModel.sheetEnabled.value == View.GONE){
+                binding.searchInput.setText("")
             }
         }
 

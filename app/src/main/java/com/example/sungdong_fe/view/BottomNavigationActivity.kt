@@ -5,10 +5,13 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import com.example.sungdong_fe.R
 import com.example.sungdong_fe.databinding.ActivityBottomNavigationBinding
 import com.example.sungdong_fe.view.component.HeaderFragment
 import com.example.sungdong_fe.view.component.SearchFragment
+import com.example.sungdong_fe.viewmodel.WalkViewModel
+import com.example.sungdong_fe.viewmodel.component.HeaderViewModel
 
 class BottomNavigationActivity : AppCompatActivity() {
     private lateinit var binding : ActivityBottomNavigationBinding
@@ -18,6 +21,7 @@ class BottomNavigationActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         getPermission()
+        HeaderFragment.viewModel = ViewModelProvider(this).get(HeaderViewModel::class.java)
         transactionFragment(binding.menuFragment.id, HomeFragment())
         transactionFragment(binding.header.id, HeaderFragment())
 
