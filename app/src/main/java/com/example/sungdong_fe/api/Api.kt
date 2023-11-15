@@ -20,7 +20,7 @@ interface Api {
     @GET("/places/search")
     suspend fun getPlacesSearch(
         @Query("keyword") keyword : String,
-    ): Response<List<PlaceLocation>>
+    ): Response<HashMap<String,List<PlaceLocation>>>
 
 
 }

@@ -1,10 +1,13 @@
 package com.example.sungdong_fe.view.component
 
+import android.app.Activity
+import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import androidx.lifecycle.Observer
 import com.example.sungdong_fe.databinding.SearchFragmentBinding
 import com.example.sungdong_fe.model.adapter.SearchResultAdapter
@@ -22,13 +25,13 @@ class SearchFragment : Fragment(){
         savedInstanceState: Bundle?
     ): View {
         binding = SearchFragmentBinding.inflate(layoutInflater)
+
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val resultAdapter = SearchResultAdapter()
-
         binding.searchResult.adapter = resultAdapter
         binding.searchBtn.setOnClickListener{
             // search
@@ -36,15 +39,25 @@ class SearchFragment : Fragment(){
         }
         viewModel.searchResult.observe(this, Observer {
             // adapter 리스트 바꾸기
-            resultAdapter.updateArray(viewModel.searchResult.value!!)
+            resultAdapter.updateList(viewModel.searchResult.value?:emptyList())
             binding.searchResult.adapter = resultAdapter
         })
         viewModel.sheetEnabled.observe(this){
+            binding.root.visibility = it
             if(viewModel.sheetEnabled.value == View.GONE){
                 binding.searchInput.setText("")
+                hideKeyboardFrom(requireContext(), view)
             }
         }
+        HeaderFragment.viewModel.searchBtnEnabled.observe(this){
+            if(it == View.GONE && viewModel.sheetEnabled.value == View.VISIBLE)
+                viewModel.updateEnabled()
+        }
 
+    }
+    private fun hideKeyboardFrom(context: Context, view: View) {
+        val imm = context.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.hideSoftInputFromWindow(view.windowToken, 0)
     }
 
 }

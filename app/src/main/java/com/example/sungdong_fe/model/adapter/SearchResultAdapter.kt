@@ -7,14 +7,15 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.sungdong_fe.databinding.SearchResultFragmentBinding
+import com.example.sungdong_fe.model.db.Dto
 
 class SearchResultAdapter : RecyclerView.Adapter<SearchResultAdapter.ViewHolder>() {
-    private var results = emptyArray<String>()
+    private var results = emptyList<Dto.PlaceLocation>()
     private lateinit var binding : SearchResultFragmentBinding
 
     inner class ViewHolder(private val binding: SearchResultFragmentBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(result: String) {
-            binding.item.text = result
+        fun bind(name: String) {
+            binding.item.text = name
         }
     }
 
@@ -26,14 +27,14 @@ class SearchResultAdapter : RecyclerView.Adapter<SearchResultAdapter.ViewHolder>
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(results[position])
+        holder.bind(results[position].name)
     }
 
     override fun getItemCount(): Int = results.size
 
     @SuppressLint("NotifyDataSetChanged")
-    fun updateArray(newArray: Array<String>){
-        results = newArray
+    fun updateList(newList: List<Dto.PlaceLocation>){
+        results = newList
         notifyDataSetChanged()
     }
 }

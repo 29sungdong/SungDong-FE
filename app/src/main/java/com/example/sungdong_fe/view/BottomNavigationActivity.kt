@@ -15,7 +15,9 @@ import com.example.sungdong_fe.R
 import com.example.sungdong_fe.databinding.ActivityBottomNavigationBinding
 import com.example.sungdong_fe.model.db.Glob.APP_KEY
 import com.example.sungdong_fe.view.component.HeaderFragment
+import com.example.sungdong_fe.view.component.SearchFragment
 import com.example.sungdong_fe.viewmodel.component.HeaderViewModel
+import com.example.sungdong_fe.viewmodel.component.SearchViewModel
 import com.tmapmobility.tmap.tmapsdk.ui.util.TmapUISDK
 
 class BottomNavigationActivity : AppCompatActivity() {
@@ -26,9 +28,13 @@ class BottomNavigationActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         getPermission()
-        HeaderFragment.viewModel = ViewModelProvider(this).get(HeaderViewModel::class.java)
+
+        // component 연결
         transactionFragment(binding.menuFragment.id, HomeFragment())
         transactionFragment(binding.header.id, HeaderFragment())
+        transactionFragment(binding.sheet.id, SearchFragment())
+        HeaderFragment.viewModel = ViewModelProvider(this).get(HeaderViewModel::class.java)
+        SearchFragment.viewModel = ViewModelProvider(this).get(SearchViewModel::class.java)
 
         binding.nav.setOnItemSelectedListener {
             when(it.itemId){
@@ -60,7 +66,7 @@ class BottomNavigationActivity : AppCompatActivity() {
             }
 
             override fun onSuccess() {
-
+                SearchFragment.viewModel = ViewModelProvider(this@BottomNavigationActivity).get(SearchViewModel::class.java)
             }
         })
     }
@@ -70,7 +76,7 @@ class BottomNavigationActivity : AppCompatActivity() {
         .commitAllowingStateLoss()
 
 
-    fun setMapCenterPoint(longi: Double?, lati: Double?){
+    private fun setMapCenterPoint(longi: Double?, lati: Double?){
         if(longi != null && lati != null) {
             TmapUISDK.getFragment().getMapView()
                 ?.setMapCenter(longi, lati, true)
