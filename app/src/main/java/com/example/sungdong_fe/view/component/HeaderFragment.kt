@@ -25,7 +25,7 @@ class HeaderFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel.searchBtnEnabled.observe(this){
+        viewModel.searchBtnEnabled.observe(viewLifecycleOwner){
             binding.search.visibility = it
         }
         binding.search.setOnClickListener {

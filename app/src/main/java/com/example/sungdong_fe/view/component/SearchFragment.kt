@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
+import androidx.core.widget.doAfterTextChanged
 import androidx.core.widget.doOnTextChanged
 import androidx.lifecycle.Observer
 import com.example.sungdong_fe.databinding.SearchFragmentBinding
@@ -34,16 +35,17 @@ class SearchFragment : Fragment(){
         super.onViewCreated(view, savedInstanceState)
         val resultAdapter = SearchResultAdapter()
         binding.searchResult.adapter = resultAdapter
-        binding.searchInput.doOnTextChanged { text, start, before, count ->
-            viewModel.updateSearchResult(text.toString())
+        binding.searchInput.doAfterTextChanged {
+            if(it != null)
+                viewModel.updateSearchResult(it.toString())
         }
 
-        viewModel.searchResult.observe(this, Observer {
+        viewModel.searchResult.observe(viewLifecycleOwner){
             // adapter 리스트 바꾸기
-            resultAdapter.updateList(viewModel.searchResult.value?:emptyList())
+            resultAdapter.updateList(it?:emptyList())
             binding.searchResult.adapter = resultAdapter
-        })
-        viewModel.sheetEnabled.observe(this){
+        }
+        viewModel.sheetEnabled.observe(viewLifecycleOwner){
             // search fragment visibility 조정
             binding.root.visibility = it
             if(viewModel.sheetEnabled.value == View.GONE){
@@ -51,7 +53,7 @@ class SearchFragment : Fragment(){
                 hideKeyboardFrom(requireContext(), view)
             }
         }
-        HeaderFragment.viewModel.searchBtnEnabled.observe(this){
+        HeaderFragment.viewModel.searchBtnEnabled.observe(viewLifecycleOwner){
             if(it == View.GONE && viewModel.sheetEnabled.value == View.VISIBLE)
                 viewModel.updateSheetEnabled()
         }

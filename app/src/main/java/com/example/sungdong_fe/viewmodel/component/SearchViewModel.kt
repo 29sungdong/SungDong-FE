@@ -34,8 +34,9 @@ class SearchViewModel : ViewModel() {
         }
     }
     fun updateSearchResult(searchWord: String)= CoroutineScope(Default).launch {
-        if(searchWord == ""){
-            _searchResult.postValue(emptyList())
+        if(searchWord.isEmpty()){
+            if(searchResult.value?.size!! > 0)
+                _searchResult.postValue(emptyList())
         }else {
             try {
                 val request =

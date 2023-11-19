@@ -70,6 +70,8 @@ class BottomNavigationActivity : AppCompatActivity() {
             }
 
             override fun onSuccess() {
+                TmapUISDK.getFragment().getMapView()
+                    ?.setMapCenter(userLocation().longitude, userLocation().latitude, true)
             }
         })
     }
