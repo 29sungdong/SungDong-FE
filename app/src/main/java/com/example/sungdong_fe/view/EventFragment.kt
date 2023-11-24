@@ -1,5 +1,6 @@
 package com.example.sungdong_fe.view
 
+import android.annotation.SuppressLint
 import android.app.Dialog
 import android.content.Context
 import androidx.lifecycle.ViewModelProvider
@@ -8,6 +9,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
 import android.webkit.WebViewClient
 import com.example.sungdong_fe.databinding.EventFragmentBinding
 import com.example.sungdong_fe.databinding.WebviewFragmentBinding
@@ -62,12 +64,16 @@ class EventFragment : Fragment() {
         viewModel.isLinkOpened.observe(viewLifecycleOwner){
             when(it){
                 true -> {
+                    dialogResize()
                     dialog.show()
                 }
                 else -> {
                     dialog.dismiss()
                 }
             }
+        }
+        dialog.setOnDismissListener {
+            viewModel.updateIsLinkOpened(false, null)
         }
         viewModel.eventUrl.observe(viewLifecycleOwner){
             webviewBinding.webview.apply {
@@ -76,6 +82,12 @@ class EventFragment : Fragment() {
                 loadUrl(it)
             }
         }
+    }
+    private fun dialogResize(){
+        val window = dialog.window
+        val params = window?.attributes
+        params?.width = WindowManager.LayoutParams.MATCH_PARENT
+        window?.attributes = params
     }
 
 }

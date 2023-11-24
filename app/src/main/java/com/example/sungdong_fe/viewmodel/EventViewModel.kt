@@ -50,9 +50,11 @@ class EventViewModel : ViewModel() {
 
         }
     }
-    fun updateIsLinkOpened(findBoolean: Boolean, findUrl: String){
+    fun updateIsLinkOpened(findBoolean: Boolean, findUrl: String?){
         _isLinkOpened.value = findBoolean
-        _eventUrl.value = findUrl
+        if(findUrl != null) {
+            _eventUrl.value = findUrl
+        }
     }
     init {
         _currentCategory.value = Category.ALL
