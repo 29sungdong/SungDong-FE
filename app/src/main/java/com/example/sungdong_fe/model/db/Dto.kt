@@ -26,4 +26,13 @@ class Dto {
         val endDate: String,
         val url: String
     )
+    data class Marker(
+        val id: Int,
+        val name: String,
+        val openingTime: String,
+        val closingTime: String,
+        val hasEvent: Boolean,
+        val xcoordinate: String,
+        val ycoordinate: String,
+    )
 }

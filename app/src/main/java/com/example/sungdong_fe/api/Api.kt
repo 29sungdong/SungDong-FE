@@ -16,7 +16,12 @@ interface Api {
         @Query("xCoordinate") xCoordinate : String,
         @Query("yCoordinate") yCoordinate : String,
     ): Response<HashMap<String,List<PlaceInfo>>>
-
+    @GET("/places/marker")
+    suspend fun getPlacesMarker(
+        @Query("xCoordinate") xCoordinate: String,
+        @Query("yCoordinate") yCoordinate: String,
+        @Query("limit") limit: Int
+    ): Response<HashMap<String, List<Marker>>>
     @GET("/places/search")
     suspend fun getPlacesSearch(
         @Query("keyword") keyword : String,

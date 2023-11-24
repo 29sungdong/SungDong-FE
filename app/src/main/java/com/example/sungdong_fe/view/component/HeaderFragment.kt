@@ -31,6 +31,9 @@ class HeaderFragment : Fragment() {
         binding.search.setOnClickListener {
             SearchFragment.viewModel.updateSheetEnabled()
         }
+        binding.person.setOnClickListener {
+            viewModel.updateIsMypageSelected(true)
+        }
     }
 
 
