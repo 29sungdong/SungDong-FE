@@ -5,12 +5,15 @@ import android.content.Context
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat.startActivity
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelStoreOwner
 import androidx.recyclerview.widget.RecyclerView
 import com.example.sungdong_fe.databinding.SearchResultFragmentBinding
 import com.example.sungdong_fe.model.db.Dto
+import com.example.sungdong_fe.view.WalkFragment
+import com.example.sungdong_fe.view.component.SearchFragment
 import com.example.sungdong_fe.viewmodel.WalkViewModel
 import com.tmapmobility.tmap.tmapsdk.ui.util.TmapUISDK
 
@@ -22,7 +25,9 @@ class SearchResultAdapter : RecyclerView.Adapter<SearchResultAdapter.ViewHolder>
         fun bind(item: Dto.PlaceLocation) {
             binding.item.text = item.name
             binding.item.setOnClickListener {
-                
+                SearchFragment.viewModel.updateSheetEnabled()
+                WalkFragment.viewModel.updateDestination(item)
+                WalkFragment.viewModel.updateIsWalk(true)
             }
         }
     }

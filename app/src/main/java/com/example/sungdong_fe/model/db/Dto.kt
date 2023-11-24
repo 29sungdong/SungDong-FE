@@ -19,4 +19,11 @@ class Dto {
         val closingTime: String,
         val hasEvent : Boolean
     )
+    data class Event(
+        val placeId: Int,
+        val placeName: String,
+        val name: String,
+        val endDate: String,
+        val url: String
+    )
 }

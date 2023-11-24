@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="com.example.sungdong_fe">
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.example.sungdong_fe">
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
-    <uses-permission android:name="android.permission.ACCESS_SURFACE_FLINGER" />
+    <uses-permission android:name="android.permission.ACCESS_SURFACE_FLINGER"
+        tools:ignore="ProtectedPermissions" />
     <application
             android:allowBackup="true"
             android:icon="@mipmap/ic_launcher"
@@ -12,7 +14,8 @@
             android:networkSecurityConfig="@xml/network_security_config"
             android:roundIcon="@mipmap/ic_launcher_round"
             android:supportsRtl="true"
-            android:theme="@style/Theme.Sungdongfe">
+            android:theme="@style/Theme.Sungdongfe"
+            android:usesCleartextTraffic="true">
         <activity
             android:name=".view.BottomNavigationActivity"
             android:windowSoftInputMode="adjustPan"

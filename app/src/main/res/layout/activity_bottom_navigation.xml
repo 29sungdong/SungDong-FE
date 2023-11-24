@@ -56,5 +56,22 @@
         android:paddingBottom="10dp"
         app:itemTextAppearanceActive="@style/BottomNavTheme"
         />
-
+    <TextView
+        android:id="@+id/tag"
+        android:layout_width="35sp"
+        android:layout_height="17dp"
+        android:text="진행중"
+        android:textSize="11sp"
+        android:background="@drawable/bg_tag"
+        app:layout_constraintTop_toTopOf="@id/nav"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="30dp"
+        android:layout_marginStart="20dp"
+        android:elevation="10dp"
+        android:gravity="center"
+        android:textColor="@color/white"
+        android:fontFamily="@font/suit_light"
+        android:visibility="invisible"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

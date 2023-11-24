@@ -22,5 +22,10 @@ interface Api {
         @Query("keyword") keyword : String,
     ): Response<HashMap<String,List<PlaceLocation>>>
 
+    @GET("/events")
+    suspend fun getEvents(
+        @Query("category") category: String?,
+        @Query("place_id") place_id: Int?
+    ): Response<HashMap<String,List<Event>>>
 
 }

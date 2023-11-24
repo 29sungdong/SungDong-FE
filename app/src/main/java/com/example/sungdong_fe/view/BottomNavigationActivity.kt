@@ -19,6 +19,7 @@ import com.example.sungdong_fe.model.db.Glob.APP_KEY
 import com.example.sungdong_fe.model.db.Glob.userLocation
 import com.example.sungdong_fe.view.component.HeaderFragment
 import com.example.sungdong_fe.view.component.SearchFragment
+import com.example.sungdong_fe.viewmodel.WalkViewModel
 import com.example.sungdong_fe.viewmodel.component.HeaderViewModel
 import com.example.sungdong_fe.viewmodel.component.SearchViewModel
 import com.skt.tmap.engine.navigation.SDKManager
@@ -36,7 +37,8 @@ class BottomNavigationActivity : AppCompatActivity() {
         // component 연결
         HeaderFragment.viewModel = ViewModelProvider(this).get(HeaderViewModel::class.java)
         SearchFragment.viewModel = ViewModelProvider(this).get(SearchViewModel::class.java)
-        transactionFragment(binding.menuFragment.id, HomeFragment())
+        WalkFragment.viewModel = ViewModelProvider(this).get(WalkViewModel::class.java)
+
         transactionFragment(binding.header.id, HeaderFragment())
         transactionFragment(binding.sheet.id, SearchFragment())
 
@@ -48,9 +50,16 @@ class BottomNavigationActivity : AppCompatActivity() {
                     binding.gps.visibility = View.GONE
                 }
                 R.id.menu_walk -> {
-                    transactionFragment(binding.menuFragment.id, TmapUISDK.getFragment())
-                    HeaderFragment.viewModel.updateSearchBtnEnabled(View.VISIBLE)
-                    binding.gps.visibility = View.VISIBLE
+                    when(WalkFragment.viewModel.isWalk.value){
+                        true->{
+                            transactionFragment(binding.menuFragment.id, WalkFragment())
+                        }
+                        else -> {
+                            transactionFragment(binding.menuFragment.id, TmapUISDK.getFragment())
+                            HeaderFragment.viewModel.updateSearchBtnEnabled(View.VISIBLE)
+                            binding.gps.visibility = View.VISIBLE
+                        }
+                    }
                 }
                 R.id.menu_event -> {
                     transactionFragment(binding.menuFragment.id, EventFragment())
@@ -63,6 +72,19 @@ class BottomNavigationActivity : AppCompatActivity() {
         binding.gps.setOnClickListener {
             TmapUISDK.getFragment().getMapView()
                 ?.setMapCenter(userLocation().longitude, userLocation().latitude, true)
+        }
+        WalkFragment.viewModel.isWalk.observe(this){
+            binding.tag.visibility = WalkFragment.viewModel.tagEnabled
+            when(it){
+                true -> {
+                    transactionFragment(binding.menuFragment.id, WalkFragment())
+                }
+                else -> {
+                    transactionFragment(binding.menuFragment.id, TmapUISDK.getFragment())
+                    binding.nav.selectedItemId = R.id.menu_walk
+                    binding.nav.isClickable = true
+                }
+            }
         }
         TmapUISDK.initialize(this, "", APP_KEY, "", "", object : TmapUISDK.InitializeListener{
             override fun onFail(errorCode: Int, errorMsg: String?) {

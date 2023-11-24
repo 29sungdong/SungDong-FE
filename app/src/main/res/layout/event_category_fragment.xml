@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.AppCompatButton
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/category_btn"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="35dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".view.component.EventCategoryFragment"
+    android:background="@drawable/sel_category_btn"
+    android:text="문화행사"
+    android:fontFamily="@font/suit_regular"
+    android:gravity="center"
+    android:textColor="@drawable/sel_category_txtcolor"
+    android:textAlignment="center"
+    android:textSize="14sp"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    android:layout_margin="4dp" />
