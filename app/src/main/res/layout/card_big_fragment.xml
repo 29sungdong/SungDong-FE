@@ -2,23 +2,26 @@
 <androidx.cardview.widget.CardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".view.component.CardBigFragment"
     android:layout_gravity="center"
     app:cardCornerRadius="10dp"
-    android:elevation="10dp">
+    app:cardElevation="10dp"
+    android:layout_marginHorizontal="46dp"
+    android:layout_marginVertical="50dp">
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
     <ImageView
         android:id="@+id/image"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:src="@drawable/sample1"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/header"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:scaleType="centerCrop"
@@ -27,21 +30,23 @@
         android:id="@+id/header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:gravity="center_vertical"
         app:layout_constraintTop_toBottomOf="@id/image"
+        app:layout_constraintBottom_toTopOf="@id/button_container"
         app:layout_constraintStart_toStartOf="parent"
         android:orientation="vertical"
-        android:layout_margin="40dp">
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="살곶이 체육공원"
-        app:layout_constraintTop_toBottomOf="@id/image"
-        app:layout_constraintStart_toStartOf="parent"
-        app:fontFamily="@font/jamsil_light"
-        android:textColor="@color/gray_dark"
-        android:textSize="16sp"
-        />
+        android:layout_margin="20dp">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="살곶이 체육공원"
+            android:textColor="@color/gray_dark"
+            android:textSize="17sp"
+            app:fontFamily="@font/jamsil_light"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/image" />
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/loc"
         android:layout_width="wrap_content"
@@ -51,7 +56,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:fontFamily="@font/jamsil_light"
         android:textColor="@color/gray_light"
-        android:textSize="12sp"
+        android:textSize="14sp"
         android:layout_marginTop="10dp"
     />
     </LinearLayout>
@@ -60,38 +65,42 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@id/header"
+        app:layout_constraintBottom_toTopOf="@id/start_btn"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:weightSum="1"
-        android:layout_marginTop="15dp"
+        android:paddingVertical="15dp"
         android:background="@drawable/bg_boarder"
         >
         <TextView
+            android:id="@+id/time"
             android:text="00:00 - 23:59"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="0.5"
             android:gravity="center"
-            android:padding="20dp"
             android:drawableTop="@drawable/ic_clock"
             android:fontFamily="@font/suit_light"
             android:drawablePadding="10dp"
             android:textColor="@color/gray_light"
+            android:textSize="14sp"
         />
         <TextView
+            android:id="@+id/tel"
             android:text="02-2289-6090"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="0.5"
             android:gravity="center"
-            android:padding="20dp"
             android:drawableTop="@drawable/ic_phone"
             android:fontFamily="@font/suit_light"
             android:drawablePadding="10dp"
             android:textColor="@color/gray_light"
+            android:textSize="14sp"
         />
     </LinearLayout>
     <include
+        android:id="@+id/start_btn"
         layout="@layout/button_fragment"
         app:layout_constraintTop_toBottomOf="@id/button_container"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -99,7 +108,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginVertical="40dp"
+        android:layout_marginVertical="20dp"
     />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>

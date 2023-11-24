@@ -15,7 +15,7 @@ interface Api {
     suspend fun getPlaces(
         @Query("xCoordinate") xCoordinate : String,
         @Query("yCoordinate") yCoordinate : String,
-    ): Response<List<PlaceInfo>>
+    ): Response<HashMap<String,List<PlaceInfo>>>
 
     @GET("/places/search")
     suspend fun getPlacesSearch(

@@ -9,7 +9,9 @@ import android.view.ViewGroup
 import com.example.sungdong_fe.R
 import com.example.sungdong_fe.databinding.ActivityBottomNavigationBinding
 import com.example.sungdong_fe.databinding.HomeFragmentBinding
+import com.example.sungdong_fe.model.adapter.CardBigAdapter
 import com.example.sungdong_fe.viewmodel.HomeViewModel
+import com.example.sungdong_fe.viewmodel.component.CardBigViewModel
 
 class HomeFragment : Fragment() {
 
@@ -17,7 +19,7 @@ class HomeFragment : Fragment() {
         fun newInstance() = HomeFragment()
     }
 
-    private lateinit var viewModel: HomeViewModel
+    private lateinit var viewModel: CardBigViewModel
     private lateinit var binding: HomeFragmentBinding
 
     override fun onCreateView(
@@ -25,13 +27,24 @@ class HomeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = HomeFragmentBinding.inflate(layoutInflater)
+        binding.right.setOnClickListener {
+            binding.contents.currentItem += 1
+        }
+        binding.left.setOnClickListener {
+            binding.contents.currentItem -= 1
+        }
         return binding.root
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(HomeViewModel::class.java)
+        viewModel = ViewModelProvider(this).get(CardBigViewModel::class.java)
+        binding.contents.adapter = CardBigAdapter(viewModel)
+        viewModel.updatePlaces()
 
+        viewModel.places.observe(viewLifecycleOwner){
+            (binding.contents.adapter as CardBigAdapter).updateList(it)
+        }
 
     }
 
