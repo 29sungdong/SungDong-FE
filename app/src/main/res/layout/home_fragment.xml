@@ -61,27 +61,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
     />
-        <ImageView
-            android:id="@+id/left"
-            android:layout_width="46dp"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_left"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:foregroundGravity="center"
-            android:padding="8dp"
-            app:tint="@color/gray_extralight" />
-        <ImageView
-            android:id="@+id/right"
-            android:layout_width="46dp"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_right"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:foregroundGravity="center"
-            android:padding="8dp"
-            app:tint="@color/gray_extralight"/>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </LinearLayout>

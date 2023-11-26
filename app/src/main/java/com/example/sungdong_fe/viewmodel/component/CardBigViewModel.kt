@@ -20,7 +20,7 @@ class CardBigViewModel : ViewModel() {
     fun updatePlaces()= CoroutineScope(Dispatchers.Default).launch {
         try{
             val request =
-                CoroutineScope(Dispatchers.IO).async { Api.retrofitClient.getPlaces(Glob.userLocation().longitude.toString(), Glob.userLocation().latitude.toString()) }
+                CoroutineScope(Dispatchers.IO).async { Api.retrofitClient(false).getPlaces(Glob.userLocation().longitude.toString(), Glob.userLocation().latitude.toString()) }
             val response = request.await()
             when (response.code()) {
                 200 -> {

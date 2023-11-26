@@ -21,8 +21,8 @@ import com.example.sungdong_fe.R
 import com.example.sungdong_fe.api.Api
 import com.example.sungdong_fe.databinding.ActivityBottomNavigationBinding
 import com.example.sungdong_fe.model.db.Glob
-import com.example.sungdong_fe.model.db.Glob.APP_KEY
-import com.example.sungdong_fe.model.db.Glob.userLocation
+import com.example.sungdong_fe.model.db.Glob.Companion.APP_KEY
+import com.example.sungdong_fe.model.db.Glob.Companion.userLocation
 import com.example.sungdong_fe.view.component.HeaderFragment
 import com.example.sungdong_fe.view.component.SearchFragment
 import com.example.sungdong_fe.viewmodel.WalkViewModel
@@ -90,7 +90,7 @@ class BottomNavigationActivity : AppCompatActivity() {
             true
         }
         binding.gps.setOnClickListener {
-            TmapUISDK.getFragment().getMapView()//?.setMapCenter(127.007314449811, 37.5444361154083, true)
+            TmapUISDK.getFragment().getMapView()
                ?.setMapCenter(userLocation().longitude, userLocation().latitude, true)
         }
         WalkFragment.viewModel.isWalk.observe(this) {

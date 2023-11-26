@@ -40,7 +40,7 @@ class SearchViewModel : ViewModel() {
         }else {
             try {
                 val request =
-                    CoroutineScope(IO).async { Api.retrofitClient.getPlacesSearch(searchWord) }
+                    CoroutineScope(IO).async { Api.retrofitClient(false).getPlacesSearch(searchWord) }
                 val response = request.await()
                 when (response.code()) {
                     200 -> _searchResult.postValue(response.body()?.get("markers"))

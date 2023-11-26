@@ -1,6 +1,14 @@
 package com.example.sungdong_fe.model.db
 
 class Dto {
+    data class User(
+        val id: Int,
+        val token: String,
+    )
+    data class LoginRequest(
+        val username: String,
+        val password: String
+    )
     data class PlaceInfo(
         val id: Int,
         val name: String,
@@ -34,5 +42,10 @@ class Dto {
         val hasEvent: Boolean,
         val xcoordinate: String,
         val ycoordinate: String,
+    )
+    data class Footprint(
+        val id : Int,
+        val name: String,
+        val isVisited: Boolean
     )
 }

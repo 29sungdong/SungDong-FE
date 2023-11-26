@@ -54,7 +54,7 @@ class WalkViewModel : ViewModel() {
     fun updateMarker(findLongitude: Double, findLatitude: Double, findLimit: Int) = CoroutineScope(Dispatchers.Default).launch {
         try{
             val request =
-                CoroutineScope(Dispatchers.IO).async { Api.retrofitClient.getPlacesMarker(findLongitude.toString(), findLatitude.toString(), findLimit) }
+                CoroutineScope(Dispatchers.IO).async { Api.retrofitClient(false).getPlacesMarker(findLongitude.toString(), findLatitude.toString(), findLimit) }
             val response = request.await()
             when (response.code()) {
                 200 -> {

@@ -27,12 +27,6 @@ class HomeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = HomeFragmentBinding.inflate(layoutInflater)
-        binding.right.setOnClickListener {
-            binding.contents.currentItem += 1
-        }
-        binding.left.setOnClickListener {
-            binding.contents.currentItem -= 1
-        }
         return binding.root
     }
 

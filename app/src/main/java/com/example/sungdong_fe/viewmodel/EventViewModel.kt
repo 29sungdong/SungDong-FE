@@ -34,11 +34,10 @@ class EventViewModel : ViewModel() {
     fun updateEvents(searchCategory: String?, place_id: Int?)= CoroutineScope(Dispatchers.Default).launch {
         try {
             val request =
-                CoroutineScope(Dispatchers.IO).async { Api.retrofitClient.getEvents(searchCategory, place_id) }
+                CoroutineScope(Dispatchers.IO).async { Api.retrofitClient(false).getEvents(searchCategory, place_id) }
             val response = request.await()
             when (response.code()) {
                 200 -> {
-                    println(response.body()?.get("events"))
                     _events.postValue(response.body()?.get("events"))
                 }
                 404 -> {
