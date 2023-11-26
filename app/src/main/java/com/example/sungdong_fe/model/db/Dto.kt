@@ -48,4 +48,20 @@ class Dto {
         val name: String,
         val isVisited: Boolean
     )
+    data class PathRequest(
+        val startX: Float,
+        val startY: Float,
+        val angle: Int?,
+        val speed: Int?,
+        val endPoiId: String?,
+        val endX: Float,
+        val endY: Float,
+        val passList: String?,
+        val reqCoordType: String?,
+        val startName: String,
+        val endName: String,
+        val searchOption: String?,
+        val CoordType: String?,
+        val sort: String?
+    )
 }

@@ -15,6 +15,8 @@ import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.toBitmap
 import androidx.core.location.component1
 import androidx.core.location.component2
+import androidx.core.view.children
+import androidx.core.view.get
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.sungdong_fe.R
@@ -29,6 +31,7 @@ import com.example.sungdong_fe.viewmodel.WalkViewModel
 import com.example.sungdong_fe.viewmodel.component.HeaderViewModel
 import com.example.sungdong_fe.viewmodel.component.SearchViewModel
 import com.skt.tmap.engine.navigation.SDKManager
+import com.skt.tmap.navirenderer.MarkerClick
 import com.skt.tmap.vsm.data.VSMMapPoint
 import com.skt.tmap.vsm.map.MapConstant
 import com.skt.tmap.vsm.map.MapEngine.OnHitCalloutPopupListener
@@ -58,6 +61,7 @@ class BottomNavigationActivity : AppCompatActivity() {
 
         transactionFragment(binding.header.id, HeaderFragment())
         transactionFragment(binding.sheet.id, SearchFragment())
+        transactionFragment(binding.walk.id, WalkFragment())
 
         binding.nav.setOnItemSelectedListener {
             if (HeaderFragment.viewModel.isMypageSelected.value!!) {
@@ -91,24 +95,28 @@ class BottomNavigationActivity : AppCompatActivity() {
         }
         binding.gps.setOnClickListener {
             TmapUISDK.getFragment().getMapView()
-               ?.setMapCenter(userLocation().longitude, userLocation().latitude, true)
+                ?.setMapCenter(userLocation().longitude, userLocation().latitude, true)
         }
         WalkFragment.viewModel.isWalk.observe(this) {
             binding.tag.visibility = WalkFragment.viewModel.tagEnabled
             when (it) {
                 true -> {
-                    transactionFragment(binding.menuFragment.id, WalkFragment())
+                    binding.walk.visibility = View.VISIBLE
+                    binding.nav.visibility = View.GONE
                 }
 
                 else -> {
+                    binding.walk.visibility = View.GONE
                     transactionFragment(binding.menuFragment.id, TmapUISDK.getFragment())
                     binding.nav.selectedItemId = R.id.menu_walk
-                    binding.nav.isClickable = true
+                    binding.nav.visibility = View.VISIBLE
                 }
             }
         }
         HeaderFragment.viewModel.searchBtnEnabled.observe(this) {
-            binding.gps.visibility = it
+            if(WalkFragment.viewModel.isWalk.value == false) {
+                binding.gps.visibility = it
+            }
             if(it == View.VISIBLE){
                 WalkFragment.viewModel.updateMarker(userLocation().longitude, userLocation().latitude,100)
             }
@@ -142,6 +150,7 @@ class BottomNavigationActivity : AppCompatActivity() {
                             MarkerImage.fromBitmap(icon!!)
                         }
                     }
+                    marker.animationEnabled = true
                     marker.showPriority = DEFAULT_PRIORITY.toFloat()
                     marker.text = m.name
                     markerManager?.addMarker(marker)
@@ -155,11 +164,13 @@ class BottomNavigationActivity : AppCompatActivity() {
                 p2: VSMMapPoint?,
                 p3: Bundle?
             ): Boolean {
-                TODO("Not yet implemented")
+
+                return false
             }
 
             override fun OnHitObjectMarker(p0: VSMMarkerBase?, p1: Bundle?): Boolean {
-                TODO("Not yet implemented")
+                println(p0)
+                return false
             }
 
             override fun OnHitObjectOilInfo(p0: String?, p1: Int, p2: VSMMapPoint?): Boolean {
@@ -208,7 +219,7 @@ class BottomNavigationActivity : AppCompatActivity() {
             }
 
             override fun OnHitCalloutPopupMarker(p0: VSMMarkerBase?) {
-                TODO("Not yet implemented")
+                println(p0)
             }
 
             override fun OnHitCalloutPopupTraffic(
@@ -236,6 +247,9 @@ class BottomNavigationActivity : AppCompatActivity() {
             }
 
         })
+        initializeTmapView()
+    }
+    private fun initializeTmapView(){
         TmapUISDK.initialize(this, "", APP_KEY, "", "", object : TmapUISDK.InitializeListener {
             override fun onFail(errorCode: Int, errorMsg: String?) {
                 TODO("Not yet implemented")
@@ -248,7 +262,6 @@ class BottomNavigationActivity : AppCompatActivity() {
             }
         })
     }
-
     private fun transactionFragment(container_id: Int, fragment: Fragment) = supportFragmentManager
         .beginTransaction()
         .replace(container_id, fragment)

@@ -9,7 +9,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:app="http://schemas.android.com/apk/res-auto"
         tools:context=".view.WalkFragment"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/destination"
             android:layout_width="match_parent"
@@ -70,19 +70,6 @@
             android:textColor="@color/gray_dark"
             android:backgroundTint="@color/white"
             android:onClick="@{()->(walkviewmodel.updateIsWalk(false))}"/>
-        <androidx.appcompat.widget.AppCompatImageButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_lock"
-            app:layout_constraintTop_toTopOf="@id/end_btn"
-            app:layout_constraintBottom_toBottomOf="@id/end_btn"
-            app:layout_constraintStart_toStartOf="parent"
-            android:padding="15dp"
-            android:paddingStart="25dp"
-            android:background="#00FF0000"/>
-        <FrameLayout
-            android:id="@+id/map"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+/
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

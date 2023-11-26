@@ -2,6 +2,7 @@ package com.example.sungdong_fe.api
 
 import com.example.sungdong_fe.model.db.Dto
 import com.example.sungdong_fe.model.db.Dto.*
+import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -42,4 +43,10 @@ interface Api {
     suspend fun getUserLogin(
         @Body request : LoginRequest
     ): Response<User>
+    @POST("/routes/pedestrian")
+    suspend fun getPath(
+        @Query("version") version: String,
+        @Query("callback") callback: String?,
+        @Body request: PathRequest
+    )
 }

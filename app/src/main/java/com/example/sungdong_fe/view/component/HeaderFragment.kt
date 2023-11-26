@@ -6,7 +6,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.sungdong_fe.databinding.HeaderFragmentBinding
+import com.example.sungdong_fe.view.WalkFragment
 import com.example.sungdong_fe.viewmodel.component.HeaderViewModel
+import java.text.Bidi
 
 class HeaderFragment : Fragment() {
 
@@ -33,6 +35,18 @@ class HeaderFragment : Fragment() {
         }
         binding.person.setOnClickListener {
             viewModel.updateIsMypageSelected(true)
+        }
+        WalkFragment.viewModel.isWalk.observe(viewLifecycleOwner){
+            when(it){
+                true -> {
+                    binding.person.visibility = View.GONE
+                    viewModel.updateSearchBtnEnabled(View.GONE)
+                }
+                else -> {
+                    binding.person.visibility = View.VISIBLE
+                    viewModel.updateSearchBtnEnabled(View.VISIBLE)
+                }
+            }
         }
     }
 

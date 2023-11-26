@@ -28,13 +28,10 @@ class WalkFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-
-        binding.walkviewmodel = viewModel
-
+        viewModel.isWalk.observe(viewLifecycleOwner){
+            if(it) {
+                binding.walkviewmodel = viewModel
+            }
+        }
     }
-
-    private fun transactionFragment(container_id: Int, fragment: Fragment) = parentFragmentManager
-        .beginTransaction()
-        .replace(container_id, fragment)
-        .commitAllowingStateLoss()
 }
