@@ -4,9 +4,11 @@ import com.example.sungdong_fe.model.db.Dto
 import com.example.sungdong_fe.model.db.Dto.*
 import retrofit2.Callback
 import retrofit2.Response
+import retrofit2.create
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
+import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface Api {
@@ -43,10 +45,17 @@ interface Api {
     suspend fun getUserLogin(
         @Body request : LoginRequest
     ): Response<User>
-    @POST("/routes/pedestrian")
-    suspend fun getPath(
-        @Query("version") version: String,
-        @Query("callback") callback: String?,
-        @Body request: PathRequest
-    )
+    @GET("places/{placeId}/walk")
+    suspend fun setWalkHistory(
+        @Path("placeId") placeId: Int,
+    ): Response<Any>
+    @GET("/sub-places")
+    suspend fun getSubPlaces(
+        @Query("placeId") placeId: Int
+    ): Response<HashMap<String, List<SubPlace>>>
+
+    @GET("/missions")
+    suspend fun getSubPlaceMission(
+        @Query("subPlaceId") subPlaceId: Int
+    ): Response<HashMap<String, List<Mission>>>
 }

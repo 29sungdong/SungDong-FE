@@ -3,6 +3,10 @@ package com.example.sungdong_fe.view
 import android.annotation.SuppressLint
 import android.app.Dialog
 import android.content.Context
+import android.graphics.Color
+import android.graphics.Point
+import android.graphics.drawable.ColorDrawable
+import android.os.Build
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -64,7 +68,7 @@ class EventFragment : Fragment() {
         viewModel.isLinkOpened.observe(viewLifecycleOwner){
             when(it){
                 true -> {
-                    dialogResize()
+                    context?.dialogResize(dialog, 0.93f, 0.9f)
                     dialog.show()
                 }
                 else -> {
@@ -83,11 +87,33 @@ class EventFragment : Fragment() {
             }
         }
     }
-    private fun dialogResize(){
-        val window = dialog.window
-        val params = window?.attributes
-        params?.width = WindowManager.LayoutParams.MATCH_PARENT
-        window?.attributes = params
+    fun Context.dialogResize(dialog: Dialog, width: Float, height: Float){
+        val windowManager = getSystemService(Context.WINDOW_SERVICE) as WindowManager
+
+        if (Build.VERSION.SDK_INT < 30){
+            val display = windowManager.defaultDisplay
+            val size = Point()
+
+            display.getSize(size)
+
+            val window = dialog.window
+
+            val x = (size.x * width).toInt()
+            val y = (size.y * height).toInt()
+
+            window?.setLayout(x, y)
+
+        }else{
+            val rect = windowManager.currentWindowMetrics.bounds
+
+            val window = dialog.window
+            window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+            val x = (rect.width() * width).toInt()
+            val y = (rect.height() * height).toInt()
+
+            window?.setLayout(x, y)
+        }
+
     }
 
 }

@@ -5,7 +5,8 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".view.MypageFragment"
-    android:background="@drawable/bg_parchment">
+    android:background="@drawable/bg_parchment"
+    android:elevation="10dp">
 
     <TextView
         android:id="@+id/title"
@@ -16,7 +17,7 @@
         app:layout_constraintTop_toTopOf="parent"
         android:text="성동 발자국 지도"
         android:fontFamily="@font/doldam_bold"
-        android:textSize="25sp"
+        android:textSize="28sp"
         android:textColor="@color/black"
         android:paddingTop="30dp"/>
     <androidx.constraintlayout.widget.ConstraintLayout

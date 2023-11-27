@@ -20,5 +20,6 @@ class Glob : Application() {
     override fun onCreate() {
         super.onCreate()
         prefs = PreferenceUtil(applicationContext)
+        prefs.setString("token","eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI3NyIsInR5cGUiOiJhY2Nlc3MiLCJpYXQiOjE3MDEwNjQ1NzAsImV4cCI6MTcwMTE1MDk3MH0.r66G5gPbSXJXrwQNGM-ZrpCZyXfTN76DU-Om-rAWkcLhT_baUsJSOiqJonkV_rzqGhJoloyf0G3uc0a4b3GKQA")
     }
 }

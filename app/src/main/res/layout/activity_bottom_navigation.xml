@@ -37,7 +37,21 @@
         app:layout_constraintEnd_toEndOf="parent"
         >
     </FrameLayout>
-
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/change_mode_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/header"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="10dp"
+        app:cornerRadius="30dp"
+        android:text="@string/change_to_walk"
+        android:fontFamily="@font/suit_bold"
+        android:textSize="14sp"
+        android:textColor="@color/gray_dark"
+        android:backgroundTint="@color/white"
+        android:onClick="@{()->(walkviewmodel.updateIsWalk(false))}"/>
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/gps"
         android:layout_width="wrap_content"
@@ -66,22 +80,4 @@
         android:paddingBottom="10dp"
         app:itemTextAppearanceActive="@style/BottomNavTheme"
         />
-    <TextView
-        android:id="@+id/tag"
-        android:layout_width="35sp"
-        android:layout_height="17dp"
-        android:text="진행중"
-        android:textSize="11sp"
-        android:background="@drawable/bg_tag"
-        app:layout_constraintTop_toTopOf="@id/nav"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_marginBottom="30dp"
-        android:layout_marginStart="20dp"
-        android:elevation="10dp"
-        android:gravity="center"
-        android:textColor="@color/white"
-        android:fontFamily="@font/suit_light"
-        android:visibility="invisible"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -9,6 +9,7 @@ import android.location.LocationManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import androidx.compose.foundation.layout.Box
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.core.content.ContextCompat
@@ -18,6 +19,7 @@ import androidx.core.location.component2
 import androidx.core.view.children
 import androidx.core.view.get
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.sungdong_fe.R
 import com.example.sungdong_fe.api.Api
@@ -25,22 +27,29 @@ import com.example.sungdong_fe.databinding.ActivityBottomNavigationBinding
 import com.example.sungdong_fe.model.db.Glob
 import com.example.sungdong_fe.model.db.Glob.Companion.APP_KEY
 import com.example.sungdong_fe.model.db.Glob.Companion.userLocation
+import com.example.sungdong_fe.view.component.DetailMapFragment
 import com.example.sungdong_fe.view.component.HeaderFragment
 import com.example.sungdong_fe.view.component.SearchFragment
 import com.example.sungdong_fe.viewmodel.WalkViewModel
 import com.example.sungdong_fe.viewmodel.component.HeaderViewModel
 import com.example.sungdong_fe.viewmodel.component.SearchViewModel
+import com.skt.Tmap.TMapView
+import com.skt.Tmap.TMapPoint
 import com.skt.tmap.engine.navigation.SDKManager
 import com.skt.tmap.navirenderer.MarkerClick
 import com.skt.tmap.vsm.data.VSMMapPoint
 import com.skt.tmap.vsm.map.MapConstant
+import com.skt.tmap.vsm.map.MapEngine
 import com.skt.tmap.vsm.map.MapEngine.OnHitCalloutPopupListener
 import com.skt.tmap.vsm.map.MapEngine.OnHitObjectListener
 import com.skt.tmap.vsm.map.marker.MarkerImage
 import com.skt.tmap.vsm.map.marker.VSMMarkerBase
 import com.skt.tmap.vsm.map.marker.VSMMarkerPoint
+import com.tmapmobility.tmap.tmapsdk.ui.data.MapSetting
+import com.tmapmobility.tmap.tmapsdk.ui.data.NightMode
 import com.tmapmobility.tmap.tmapsdk.ui.util.TmapUISDK
 import com.tmapmobility.tmap.tmapsdk.ui.view.MapConstant.MarkerRenderingPriority.DEFAULT_PRIORITY
+import com.tmapmobility.tmap.tmapsdk.ui.view.MapConstant.MarkerRenderingPriority.SELECT_MARKER
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
@@ -62,6 +71,10 @@ class BottomNavigationActivity : AppCompatActivity() {
         transactionFragment(binding.header.id, HeaderFragment())
         transactionFragment(binding.sheet.id, SearchFragment())
         transactionFragment(binding.walk.id, WalkFragment())
+
+        val tmapView = TMapView(this@BottomNavigationActivity)
+        tmapView.setSKTMapApiKey(APP_KEY)
+        WalkFragment.viewModel.updateTmapview(tmapView)
 
         binding.nav.setOnItemSelectedListener {
             if (HeaderFragment.viewModel.isMypageSelected.value!!) {
@@ -97,8 +110,21 @@ class BottomNavigationActivity : AppCompatActivity() {
             TmapUISDK.getFragment().getMapView()
                 ?.setMapCenter(userLocation().longitude, userLocation().latitude, true)
         }
+        binding.changeModeBtn.setOnClickListener{
+            when(binding.changeModeBtn.text){
+                getString(R.string.change_to_walk) -> {
+                    binding.changeModeBtn.setText(R.string.change_to_default)
+                    TmapUISDK.getFragment().startSafeDrive()
+                    binding.gps.visibility = View.GONE
+                }
+                else -> {
+                    binding.changeModeBtn.setText(R.string.change_to_walk)
+                    TmapUISDK.getFragment().stopDrive()
+                    binding.gps.visibility = View.VISIBLE
+                }
+            }
+        }
         WalkFragment.viewModel.isWalk.observe(this) {
-            binding.tag.visibility = WalkFragment.viewModel.tagEnabled
             when (it) {
                 true -> {
                     binding.walk.visibility = View.VISIBLE
@@ -113,9 +139,22 @@ class BottomNavigationActivity : AppCompatActivity() {
                 }
             }
         }
+        WalkFragment.viewModel.isDetailMap.observe(this){
+            if(it) {
+                transactionFragment(
+                    binding.menuFragment.id,
+                    DetailMapFragment(WalkFragment.viewModel.destination.value!!.id)
+                )
+                binding.gps.visibility = View.GONE
+            }
+            else{
+
+            }
+        }
         HeaderFragment.viewModel.searchBtnEnabled.observe(this) {
             if(WalkFragment.viewModel.isWalk.value == false) {
                 binding.gps.visibility = it
+                binding.changeModeBtn.visibility = it
             }
             if(it == View.VISIBLE){
                 WalkFragment.viewModel.updateMarker(userLocation().longitude, userLocation().latitude,100)
@@ -151,102 +190,12 @@ class BottomNavigationActivity : AppCompatActivity() {
                         }
                     }
                     marker.animationEnabled = true
-                    marker.showPriority = DEFAULT_PRIORITY.toFloat()
+                    marker.showPriority = SELECT_MARKER.toFloat()
                     marker.text = m.name
                     markerManager?.addMarker(marker)
                 }
             }
         }
-        TmapUISDK.getFragment().setHitEventListener(object: OnHitObjectListener{
-            override fun OnHitObjectPOI(
-                p0: String?,
-                p1: Int,
-                p2: VSMMapPoint?,
-                p3: Bundle?
-            ): Boolean {
-
-                return false
-            }
-
-            override fun OnHitObjectMarker(p0: VSMMarkerBase?, p1: Bundle?): Boolean {
-                println(p0)
-                return false
-            }
-
-            override fun OnHitObjectOilInfo(p0: String?, p1: Int, p2: VSMMapPoint?): Boolean {
-                TODO("Not yet implemented")
-            }
-
-            override fun OnHitObjectTraffic(
-                p0: String?,
-                p1: Int,
-                p2: String?,
-                p3: String?,
-                p4: String?,
-                p5: VSMMapPoint?
-            ): Boolean {
-                TODO("Not yet implemented")
-            }
-
-            override fun OnHitObjectCctv(
-                p0: String?,
-                p1: Int,
-                p2: VSMMapPoint?,
-                p3: Bundle?
-            ): Boolean {
-                TODO("Not yet implemented")
-            }
-
-            override fun OnHitObjectAlternativeRoute(p0: String?, p1: VSMMapPoint?): Boolean {
-                TODO("Not yet implemented")
-            }
-
-            override fun OnHitObjectRouteFlag(p0: String?, p1: Int, p2: VSMMapPoint?): Boolean {
-                TODO("Not yet implemented")
-            }
-
-            override fun OnHitObjectRouteLine(p0: String?, p1: Int, p2: VSMMapPoint?): Boolean {
-                TODO("Not yet implemented")
-            }
-
-            override fun OnHitObjectNone(p0: VSMMapPoint?): Boolean {
-                TODO("Not yet implemented")
-            }
-
-        }, object: OnHitCalloutPopupListener{
-            override fun OnHitCalloutPopupPOI(p0: String?, p1: Int, p2: VSMMapPoint?, p3: Bundle?) {
-                TODO("Not yet implemented")
-            }
-
-            override fun OnHitCalloutPopupMarker(p0: VSMMarkerBase?) {
-                println(p0)
-            }
-
-            override fun OnHitCalloutPopupTraffic(
-                p0: String?,
-                p1: Int,
-                p2: String?,
-                p3: String?,
-                p4: String?,
-                p5: VSMMapPoint?
-            ) {
-                TODO("Not yet implemented")
-            }
-
-            override fun OnHitCalloutPopupCctv(
-                p0: String?,
-                p1: Int,
-                p2: VSMMapPoint?,
-                p3: Bundle?
-            ) {
-                TODO("Not yet implemented")
-            }
-
-            override fun OnHitCalloutPopupUserDefine(p0: String?, p1: Int, p2: VSMMapPoint?) {
-                TODO("Not yet implemented")
-            }
-
-        })
         initializeTmapView()
     }
     private fun initializeTmapView(){
@@ -256,6 +205,10 @@ class BottomNavigationActivity : AppCompatActivity() {
             }
 
             override fun onSuccess() {
+                val mapSetting = MapSetting()
+                mapSetting.isShowClosedPopup = false
+                mapSetting.isUseNightMode = NightMode.ALWAYS_OFF
+                TmapUISDK.getFragment().setSettings(mapSetting)
                 TmapUISDK.getFragment().getMapView()
                     ?.setMapCenter(userLocation().longitude, userLocation().latitude, true)
                 WalkFragment.viewModel.updateMarker(userLocation().longitude, userLocation().latitude,100)

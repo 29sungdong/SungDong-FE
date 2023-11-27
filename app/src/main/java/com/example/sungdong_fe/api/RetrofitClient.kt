@@ -28,17 +28,7 @@ object RetrofitClient {
             // 객체정보 반환
             .build()
     }
-    fun getTmapClient() : Retrofit {
-        return Retrofit.Builder()
-            //서버 url설정
-            .baseUrl(TMAP_BASE_URL)
-            // Header 붙이기
-            .client(getOkHttpClient(TmapInterceptor()))
-            .addConverterFactory(GsonConverterFactory.create())
-            // 객체정보 반환
-            .build()
-    }
-    private fun getOkHttpClient(interceptor: Interceptor) : OkHttpClient
+    private fun getOkHttpClient(interceptor: AppInterceptor) : OkHttpClient
             = OkHttpClient.Builder().run{
         addInterceptor(interceptor)
         connectTimeout(300, TimeUnit.SECONDS); // connect timeout
@@ -48,17 +38,9 @@ object RetrofitClient {
     class AppInterceptor : Interceptor {
         @Throws(IOException::class)
         override fun intercept(chain: Interceptor.Chain) : Response = with(chain) {
+            println(Glob.prefs.getString("token","logout"))
             val newRequest = request().newBuilder()
                 .addHeader("Authorization", "Bearer "+ Glob.prefs.getString("token","logout"))
-                .build()
-            proceed(newRequest)
-        }
-    }
-    class TmapInterceptor : Interceptor {
-        @Throws(IOException::class)
-        override fun intercept(chain: Interceptor.Chain) : Response = with(chain) {
-            val newRequest = request().newBuilder()
-                .addHeader("Authorization", Glob.APP_KEY)
                 .build()
             proceed(newRequest)
         }

@@ -33,7 +33,7 @@ class HomeFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProvider(this).get(CardBigViewModel::class.java)
-        binding.contents.adapter = CardBigAdapter(viewModel)
+        binding.contents.adapter = CardBigAdapter(requireContext(), viewModel)
         viewModel.updatePlaces()
 
         viewModel.places.observe(viewLifecycleOwner){

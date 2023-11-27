@@ -11,10 +11,6 @@ import com.example.sungdong_fe.viewmodel.component.CardBigViewModel
 
 class CardBigFragment : Fragment() {
 
-    companion object {
-        fun newInstance() = CardBigFragment()
-    }
-
     private lateinit var viewModel: CardBigViewModel
 
     override fun onCreateView(
@@ -28,6 +24,7 @@ class CardBigFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProvider(this).get(CardBigViewModel::class.java)
         // TODO: Use the ViewModel
+
     }
 
 }

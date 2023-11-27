@@ -5,6 +5,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android"
     app:cardBackgroundColor="@color/white"
+    app:cardCornerRadius="15dp"
     app:cardElevation="0dp">
     <WebView
         android:id="@+id/webview"
