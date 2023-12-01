@@ -54,9 +54,9 @@ class WalkFragment() : Fragment() {
                 }
             }
         }
-        binding.detailMapBtn.visibility = View.VISIBLE
-        binding.stamp.visibility = View.VISIBLE
-        binding.finTxt.visibility = View.VISIBLE
+//        binding.detailMapBtn.visibility = View.VISIBLE
+//        binding.stamp.visibility = View.VISIBLE
+//        binding.finTxt.visibility = View.VISIBLE
 
         binding.detailMapBtn.setOnClickListener {
             viewModel.updateIsDetailMap(true)

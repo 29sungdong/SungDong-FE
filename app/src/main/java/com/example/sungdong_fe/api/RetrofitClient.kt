@@ -38,7 +38,6 @@ object RetrofitClient {
     class AppInterceptor : Interceptor {
         @Throws(IOException::class)
         override fun intercept(chain: Interceptor.Chain) : Response = with(chain) {
-            println(Glob.prefs.getString("token","logout"))
             val newRequest = request().newBuilder()
                 .addHeader("Authorization", "Bearer "+ Glob.prefs.getString("token","logout"))
                 .build()
